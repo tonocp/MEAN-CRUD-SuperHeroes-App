@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Heroe } from '../../interfaces/heroes.interface';
 
 @Component({
+  standalone: false,
   selector: 'app-confirmar',
   templateUrl: './confirmar.component.html',
   styles: [

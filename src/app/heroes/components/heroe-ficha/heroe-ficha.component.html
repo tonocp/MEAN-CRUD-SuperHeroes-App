@@ -1,0 +1,41 @@
+<div class="form-layout">
+  <div class="col-25">
+    <h1>
+      {{ heroe.superhero }}, <small>a.k.a "{{ heroe.alter_ego }}"</small>
+    </h1>
+    <mat-divider></mat-divider>
+    <br />
+    <img [src]="heroe | imagen" [alt]="heroe.superhero" />
+  </div>
+  <div class="col-25">
+    <h1>{{ heroe.publisher }}</h1>
+    <mat-divider></mat-divider>
+    <mat-list>
+      <mat-list-item>
+        <h2 matLine>Primera aparición:</h2>
+        <p matLine>
+          {{ heroe.first_appearance }}
+        </p>
+      </mat-list-item>
+      <mat-list-item>
+        <h2 matLine>Personajes:</h2>
+        <p matLine>
+          {{ heroe.characters }}
+        </p>
+      </mat-list-item>
+      <mat-list-item>
+        <h2 matLine>Publicado por:</h2>
+        <p matLine>
+          {{ heroe.publisher }}
+        </p>
+      </mat-list-item>
+      <mat-list-item>
+        <h2 matLine>Alter-ego:</h2>
+        <p matLine>
+          {{ heroe.alter_ego }}
+        </p>
+      </mat-list-item>
+    </mat-list>
+    <ng-content select="[ficha-footer]"></ng-content>
+  </div>
+</div>

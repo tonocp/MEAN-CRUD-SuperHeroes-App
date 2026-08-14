@@ -1,9 +1,9 @@
-<div fxLayout="column">
+<div class="fx-column">
   <div>
     <h1>Buscador de Héroes</h1>
     <mat-divider></mat-divider>
   </div>
-  <div fxLayout="column">
+  <div class="fx-column">
     <h3>Buscador</h3>
     <mat-form-field>
       <mat-label>Escribe un héroe...</mat-label>
@@ -34,6 +34,6 @@
     </mat-form-field>
   </div>
   <div *ngIf="heroeSeleccionado">
-    <app-heroe-tarjeta [heroe]="heroeSeleccionado"></app-heroe-tarjeta>
+    <app-heroe-ficha [heroe]="heroeSeleccionado"></app-heroe-ficha>
   </div>
 </div>

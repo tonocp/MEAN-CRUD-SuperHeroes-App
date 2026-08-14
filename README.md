@@ -1,9 +1,21 @@
 # MEAN CRUD SuperHeroes App
 
-This is the GitHub repository for this **MEAN CRUD** project I made using [Angular Material](https://material.angular.io/) for *Create, Read, Update and Delete* Super Heroes from a [MongoDB](https://www.mongodb.com) Database.
+A **MEAN CRUD** project built with [Angular Material](https://material.angular.io/) for *Create, Read, Update and Delete* Super Heroes stored in a [MongoDB](https://www.mongodb.com) database.
 
-It can *CRUD* through the database correctly, it also check the image URL and set an image by *default* if you don't provide an URL.
+It CRUDs heroes correctly, validates the image URL and falls back to a default image if none is provided.
 
-It also implements **User Authentication** using *'CanLoad'* and *'CanActivate'* from the *'@angular/router'* module, and saving a **JSON WEB TOKEN** in a *Local Storage Variable*. Besides, it also show the user name and can *logout* correctly, routing the user to the *Login Page*.
+It also implements **User Authentication** using `CanLoad` and `CanActivate` from `@angular/router`, storing a **JSON Web Token** in local storage. It shows the logged-in user's name and supports logout, routing back to the login page.
 
-### Now it's deployed here https://crud-heroes.herokuapp.com/
+## Requirements
+
+- Node.js / Angular CLI compatible with Angular 12.2.x
+- A running backend API exposing the auth and heroes endpoints
+
+## Development
+
+```bash
+npm install
+ng serve
+```
+
+Configure the API base URL in `src/environments/environment.ts`.

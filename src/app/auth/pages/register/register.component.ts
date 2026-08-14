@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
+  standalone: false,
   selector: 'app-register',
   templateUrl: './register.component.html',
   styles: [],

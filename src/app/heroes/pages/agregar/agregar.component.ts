@@ -1,4 +1,4 @@
-import { Component, OnInit, PipeTransform } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Heroe, Publisher } from '../../interfaces/heroes.interface';
 import { HeroesService } from '../../services/heroes.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmarComponent } from '../../components/confirmar/confirmar.component';
 
 @Component({
+  standalone: false,
   selector: 'app-agregar',
   templateUrl: './agregar.component.html',
   styles: [
@@ -45,35 +46,33 @@ export class AgregarComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     if (!this.router.url.includes('editar')) return;
     this.activatedRoute.params
       .pipe(switchMap(({ id }) => this.HeroesService.getHeroePorId(id)))
-      .subscribe((heroe) => (this.heroe = heroe));
+      .subscribe((heroe) => {
+        this.heroe = heroe;
+        this.cdr.detectChanges();
+      });
   }
 
   guardar() {
     if (this.heroe.superhero.trim().length === 0) return;
-    if (this.heroe.id) {
+    if (this.heroe._id) {
       // Update
       this.HeroesService.actualizarHeroe(this.heroe).subscribe((heroe) => {
         this.heroe = heroe;
+        this.cdr.detectChanges();
         this.mostrarSnackBar('Registro Actualizado!');
       });
     } else {
-      // Generar Angular Route ID
-      if (this.heroe.publisher === Publisher.DCComics) {
-        this.heroe.id = 'dc-' + this.heroe.superhero.toLowerCase();
-      }
-      if (this.heroe.publisher === Publisher.MarvelComics) {
-        this.heroe.id = 'marvel-' + this.heroe.superhero.toLowerCase();
-      }
       // Guardar
       this.HeroesService.agregarHeroe(this.heroe).subscribe((heroe) => {
-        this.router.navigate(['/heroes/editar', heroe.id]);
+        this.router.navigate(['/heroes/editar', heroe._id]);
         this.mostrarSnackBar('Registro Creado!');
       });
     }
@@ -87,8 +86,8 @@ export class AgregarComponent implements OnInit {
 
     dialog.afterClosed().subscribe((result) => {
       if (result) {
-        this.HeroesService.borrarHeroe(this.heroe._id!).subscribe((heroes) => {
-          this.router.navigate(['/heroes', heroes]);
+        this.HeroesService.borrarHeroe(this.heroe._id!).subscribe(() => {
+          this.router.navigate(['/heroes/listado']);
           this.mostrarSnackBar('Registro Borrado!');
         });
       }

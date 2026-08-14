@@ -1,17 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
+  standalone: false,
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styles: [
-    `
-      .container {
-        margin: 10 px;
-      }
-    `,
-  ],
 })
 export class HomeComponent {
   get usuario() {
