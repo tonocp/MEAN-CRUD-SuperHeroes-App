@@ -16,6 +16,7 @@ export interface Heroe {
   first_appearance: string;
   characters: string;
   alt_img?: string;
+  seeded?: boolean;
 }
 
 export enum Publisher {
@@ -166,16 +167,8 @@ function a(typ: any) {
   return { arrayItems: typ };
 }
 
-function u(...typs: any[]) {
-  return { unionMembers: typs };
-}
-
 function o(props: any[], additional: any) {
   return { props, additional };
-}
-
-function m(additional: any) {
-  return { props: [], additional };
 }
 
 function r(name: string) {

@@ -1,28 +1,23 @@
 <h1>
-  {{ heroe.id ? "Editar" : "Nuevo" }}
+  {{ heroe._id ? "Editar" : "Nuevo" }}
   Héroe <small>{{ heroe.superhero }}</small>
 </h1>
 
-<div
-  fxLayout="row"
-  fxLayoutGap="10%"
-  fxLayoutAlign="center"
-  fxLayout.xs="column"
->
-  <div fxFlex="25" fxLayout="column">
-    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="20px">
-      <mat-form-field fxFlex="100">
+<div class="form-layout">
+  <div class="col-25 fx-column">
+    <div class="field-row">
+      <mat-form-field class="field-full">
         <mat-label>Super Héroe</mat-label>
         <input matInput type="text" [(ngModel)]="heroe.superhero" required />
       </mat-form-field>
 
-      <mat-form-field fxFlex="100">
+      <mat-form-field class="field-full">
         <mat-label>Alter Ego</mat-label>
         <input matInput type="text" [(ngModel)]="heroe.alter_ego" required />
       </mat-form-field>
     </div>
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field class="field-full">
       <mat-label>Primera Aparición</mat-label>
       <input
         matInput
@@ -31,11 +26,11 @@
         required
       />
     </mat-form-field>
-    <mat-form-field fxFlex="100">
+    <mat-form-field class="field-full">
       <mat-label>Personajes</mat-label>
       <input matInput type="text" [(ngModel)]="heroe.characters" required />
     </mat-form-field>
-    <mat-form-field fxFlex="100">
+    <mat-form-field class="field-full">
       <mat-label>Creador</mat-label>
       <mat-select [(ngModel)]="heroe.publisher" required>
         <mat-option
@@ -46,19 +41,19 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field fxFlex="100">
+    <mat-form-field class="field-full">
       <mat-label>Foto Url</mat-label>
       <input matInput type="url" [(ngModel)]="heroe.alt_img" required />
     </mat-form-field>
     <br />
-    <div fxLayout>
+    <div class="fx-row">
       <button mat-raised-button color="primary" (click)="guardar()">
         <mat-icon>edit</mat-icon>
-        {{ heroe.id ? "Actualizar" : "Crear" }}
+        {{ heroe._id ? "Actualizar" : "Crear" }}
       </button>
       <span class="spacer"></span>
       <button
-        *ngIf="heroe.id"
+        *ngIf="heroe._id && !heroe.seeded"
         mat-raised-button
         color="warn"
         (click)="borrar()"
@@ -69,7 +64,7 @@
     </div>
   </div>
 
-  <div fxFlex="25">
-    <img [src]="heroe | imagen" />
+  <div class="col-25">
+    <img [src]="heroe | imagen" [alt]="heroe.superhero" />
   </div>
 </div>

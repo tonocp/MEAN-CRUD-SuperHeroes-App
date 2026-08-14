@@ -39,7 +39,7 @@ export class HeroesService {
 
   actualizarHeroe(heroe: Heroe): Observable<Heroe> {
     return this.http.put<Heroe>(
-      `${this.baseUrl}/api/heroes/edit/${heroe.id}`,
+      `${this.baseUrl}/api/heroes/edit/${heroe._id}`,
       heroe
     );
   }

@@ -18,6 +18,97 @@ body {
 }
 
 /*//////////////////////////////////////////////////////////////////
+[ Layout utilities — reemplazo de @angular/flex-layout ]*/
+
+.fx-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.fx-column {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Replica el comportamiento exacto que tenía @angular/flex-layout antes
+   (medido directamente contra la app original, no calculado a ojo):
+   fxLayout="row wrap" fxLayoutAlign="center" fxLayoutGap="20px",
+   fxFlex="20" por defecto (md y xl), fxFlex.lg="15", fxFlex.sm="30",
+   fxLayout.xs="column". flex-basis se comporta como un max-width fijo
+   (el grow nunca llega a activarse), así que el nº de tarjetas por fila
+   sale solo del wrap: al 20% nunca caben 5 (100%+gaps > 100%), siempre 4;
+   al 15% caben 6; al 30% caben 3. Breakpoints estándar de flex-layout:
+   xs <600, sm 600-959, md 960-1279, lg 1280-1919, xl >=1920. */
+.heroes-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.heroes-grid > div {
+  flex: 1 1 20%; /* md y xl */
+  max-width: 20%;
+  min-width: 0;
+}
+
+@media (max-width: 599.98px) {
+  .heroes-grid {
+    flex-direction: column;
+  }
+  .heroes-grid > div {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 959.98px) {
+  .heroes-grid > div {
+    flex: 1 1 30%;
+    max-width: 30%;
+  }
+}
+
+@media (min-width: 1280px) and (max-width: 1919.98px) {
+  .heroes-grid > div {
+    flex: 1 1 15%;
+    max-width: 15%;
+  }
+}
+
+.form-layout {
+  display: flex;
+  flex-direction: row;
+  gap: 10%;
+  justify-content: center;
+}
+
+.field-row {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.field-full {
+  width: 100%;
+}
+
+.col-25 {
+  flex: 1 1 25%;
+  max-width: 25%;
+  min-width: 0;
+}
+
+@media (max-width: 599.98px) {
+  .form-layout,
+  .field-row {
+    flex-direction: column;
+  }
+  .col-25 {
+    max-width: 100%;
+  }
+}
+
+/*//////////////////////////////////////////////////////////////////
 [ FONT ]*/
 
 @font-face {
@@ -43,10 +134,10 @@ body {
 /*//////////////////////////////////////////////////////////////////
       [ RESTYLE TAG ]*/
 * {
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
-  font-family: Poppins-Bold;
+  font-family: Poppins-Bold, sans-serif;
 }
 
 body,
@@ -57,15 +148,13 @@ html {
 
 /*---------------------------------------------*/
 a {
-  font-family: Poppins-Regular;
+  font-family: Poppins-Regular, sans-serif;
   font-size: 14px;
   line-height: 1.7;
   color: #666666;
-  margin: 0px;
+  margin: 0;
   transition: all 0.4s;
   -webkit-transition: all 0.4s;
-  -o-transition: all 0.4s;
-  -moz-transition: all 0.4s;
 }
 
 a:focus {
@@ -84,7 +173,7 @@ h3,
 h4,
 h5,
 h6 {
-  margin: 0px;
+  margin: 0;
 }
 
 p {
@@ -92,12 +181,12 @@ p {
   font-size: 14px;
   line-height: 1.7;
   color: #666666;
-  margin: 0px;
+  margin: 0;
 }
 
 ul,
 li {
-  margin: 0px;
+  margin: 0;
   list-style-type: none;
 }
 
@@ -131,14 +220,14 @@ button:hover {
 /*//////////////////////////////////////////////////////////////////
       [ Utility ]*/
 .txt1 {
-  font-family: Poppins-Regular;
+  font-family: Poppins-Regular, sans-serif;
   font-size: 14px;
   line-height: 1.5;
   color: #666666;
 }
 
 .txt2 {
-  font-family: Poppins-Regular;
+  font-family: Poppins-Regular, sans-serif;
   font-size: 14px;
   line-height: 1.5;
   color: #333333;
@@ -168,7 +257,6 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -195,7 +283,7 @@ button:hover {
 
 .login100-form-title {
   display: block;
-  font-family: Poppins-Bold;
+  font-family: Poppins-Bold, sans-serif;
   font-size: 39px;
   color: #333333;
   line-height: 1.2;
@@ -212,7 +300,7 @@ button:hover {
 }
 
 .label-input100 {
-  font-family: Poppins-Regular;
+  font-family: Poppins-Regular, sans-serif;
   font-size: 14px;
   color: #333333;
   line-height: 1.5;
@@ -220,7 +308,7 @@ button:hover {
 }
 
 .input100 {
-  font-family: Poppins-Medium;
+  font-family: Poppins-Medium, sans-serif;
   font-size: 16px;
   color: #333333;
   line-height: 1.2;
@@ -245,14 +333,13 @@ button:hover {
 
 .focus-input100::after {
   content: attr(data-symbol);
-  font-family: Material-Design-Iconic-Font;
+  font-family: Material-Design-Iconic-Font, sans-serif;
   color: #adadad;
   font-size: 22px;
 
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -274,8 +361,6 @@ button:hover {
   height: 2px;
   background: #7f7f7f;
   -webkit-transition: all 0.4s;
-  -o-transition: all 0.4s;
-  -moz-transition: all 0.4s;
   transition: all 0.4s;
 }
 
@@ -301,7 +386,6 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -316,11 +400,8 @@ button:hover {
   overflow: hidden;
   margin: 0 auto;
 
-  box-shadow: 0 5px 30px 0px rgba(3, 216, 222, 0.2);
-  -moz-box-shadow: 0 5px 30px 0px rgba(3, 216, 222, 0.2);
-  -webkit-box-shadow: 0 5px 30px 0px rgba(3, 216, 222, 0.2);
-  -o-box-shadow: 0 5px 30px 0px rgba(3, 216, 222, 0.2);
-  -ms-box-shadow: 0 5px 30px 0px rgba(3, 216, 222, 0.2);
+  box-shadow: 0 5px 30px 0 rgba(3, 216, 222, 0.2);
+  -webkit-box-shadow: 0 5px 30px 0 rgba(3, 216, 222, 0.2);
 }
 
 .login100-form-bgbtn {
@@ -338,13 +419,11 @@ button:hover {
   left: -100%;
 
   -webkit-transition: all 0.4s;
-  -o-transition: all 0.4s;
-  -moz-transition: all 0.4s;
   transition: all 0.4s;
 }
 
 .login100-form-btn {
-  font-family: Poppins-Medium;
+  font-family: Poppins-Medium, sans-serif;
   font-size: 16px;
   color: #fff;
   line-height: 1.2;
@@ -353,7 +432,6 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -374,7 +452,7 @@ button:hover {
       ///////////////////////////////////////////////////////////
       */
 .p-t-0 {
-  padding-top: 0px;
+  padding-top: 0;
 }
 .p-t-1 {
   padding-top: 1px;
@@ -1127,7 +1205,7 @@ button:hover {
   padding-top: 250px;
 }
 .p-b-0 {
-  padding-bottom: 0px;
+  padding-bottom: 0;
 }
 .p-b-1 {
   padding-bottom: 1px;
@@ -1880,7 +1958,7 @@ button:hover {
   padding-bottom: 250px;
 }
 .p-l-0 {
-  padding-left: 0px;
+  padding-left: 0;
 }
 .p-l-1 {
   padding-left: 1px;
@@ -2633,7 +2711,7 @@ button:hover {
   padding-left: 250px;
 }
 .p-r-0 {
-  padding-right: 0px;
+  padding-right: 0;
 }
 .p-r-1 {
   padding-right: 1px;
@@ -3390,7 +3468,7 @@ button:hover {
       ///////////////////////////////////////////////////////////
       */
 .m-t-0 {
-  margin-top: 0px;
+  margin-top: 0;
 }
 .m-t-1 {
   margin-top: 1px;
@@ -4143,7 +4221,7 @@ button:hover {
   margin-top: 250px;
 }
 .m-b-0 {
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 .m-b-1 {
   margin-bottom: 1px;
@@ -4896,7 +4974,7 @@ button:hover {
   margin-bottom: 250px;
 }
 .m-l-0 {
-  margin-left: 0px;
+  margin-left: 0;
 }
 .m-l-1 {
   margin-left: 1px;
@@ -5649,7 +5727,7 @@ button:hover {
   margin-left: 250px;
 }
 .m-r-0 {
-  margin-right: 0px;
+  margin-right: 0;
 }
 .m-r-1 {
   margin-right: 1px;
@@ -6531,7 +6609,6 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
 }
 
@@ -6702,15 +6779,12 @@ button:hover {
 .hov-img-zoom img {
   width: 100%;
   -webkit-transition: all 0.6s;
-  -o-transition: all 0.6s;
-  -moz-transition: all 0.6s;
   transition: all 0.6s;
 }
 .hov-img-zoom:hover img {
   -webkit-transform: scale(1.1);
   -moz-transform: scale(1.1);
   -ms-transform: scale(1.1);
-  -o-transform: scale(1.1);
   transform: scale(1.1);
 }
 
@@ -6737,50 +6811,34 @@ button:hover {
       */
 .trans-0-1 {
   -webkit-transition: all 0.1s;
-  -o-transition: all 0.1s;
-  -moz-transition: all 0.1s;
   transition: all 0.1s;
 }
 .trans-0-2 {
   -webkit-transition: all 0.2s;
-  -o-transition: all 0.2s;
-  -moz-transition: all 0.2s;
   transition: all 0.2s;
 }
 .trans-0-3 {
   -webkit-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  -moz-transition: all 0.3s;
   transition: all 0.3s;
 }
 .trans-0-4 {
   -webkit-transition: all 0.4s;
-  -o-transition: all 0.4s;
-  -moz-transition: all 0.4s;
   transition: all 0.4s;
 }
 .trans-0-5 {
   -webkit-transition: all 0.5s;
-  -o-transition: all 0.5s;
-  -moz-transition: all 0.5s;
   transition: all 0.5s;
 }
 .trans-0-6 {
   -webkit-transition: all 0.6s;
-  -o-transition: all 0.6s;
-  -moz-transition: all 0.6s;
   transition: all 0.6s;
 }
 .trans-0-9 {
   -webkit-transition: all 0.9s;
-  -o-transition: all 0.9s;
-  -moz-transition: all 0.9s;
   transition: all 0.9s;
 }
 .trans-1-0 {
   -webkit-transition: all 1s;
-  -o-transition: all 1s;
-  -moz-transition: all 1s;
   transition: all 1s;
 }
 
@@ -6796,12 +6854,8 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   -webkit-flex-wrap: wrap;
-  -moz-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  -o-flex-wrap: wrap;
   flex-wrap: wrap;
 }
 
@@ -6810,7 +6864,6 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   justify-content: flex-start;
 }
@@ -6819,7 +6872,6 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   justify-content: flex-end;
 }
@@ -6828,7 +6880,6 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   justify-content: center;
 }
@@ -6837,7 +6888,6 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   justify-content: space-around;
 }
@@ -6846,7 +6896,6 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   justify-content: space-between;
 }
@@ -6856,9 +6905,7 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-align-items: flex-start;
   align-items: flex-start;
 }
 
@@ -6866,9 +6913,7 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-align-items: flex-end;
   align-items: flex-end;
 }
 
@@ -6876,9 +6921,7 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-align-items: center;
   align-items: center;
 }
 
@@ -6886,9 +6929,7 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-align-items: stretch;
   align-items: stretch;
 }
 
@@ -6897,12 +6938,8 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   -webkit-flex-direction: row;
-  -moz-flex-direction: row;
-  -ms-flex-direction: row;
-  -o-flex-direction: row;
   flex-direction: row;
 }
 
@@ -6910,12 +6947,8 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   -webkit-flex-direction: row-reverse;
-  -moz-flex-direction: row-reverse;
-  -ms-flex-direction: row-reverse;
-  -o-flex-direction: row-reverse;
   flex-direction: row-reverse;
 }
 
@@ -6923,12 +6956,8 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  -ms-flex-direction: column;
-  -o-flex-direction: column;
   flex-direction: column;
 }
 
@@ -6936,12 +6965,8 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   -webkit-flex-direction: column-reverse;
-  -moz-flex-direction: column-reverse;
-  -ms-flex-direction: column-reverse;
-  -o-flex-direction: column-reverse;
   flex-direction: column-reverse;
 }
 
@@ -6950,10 +6975,8 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   justify-content: center;
-  -ms-align-items: center;
   align-items: center;
 }
 
@@ -6961,10 +6984,8 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   justify-content: center;
-  -ms-align-items: flex-start;
   align-items: flex-start;
 }
 
@@ -6972,10 +6993,8 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   justify-content: center;
-  -ms-align-items: flex-end;
   align-items: flex-end;
 }
 
@@ -6983,10 +7002,8 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   justify-content: center;
-  -ms-align-items: stretch;
   align-items: stretch;
 }
 
@@ -6994,10 +7011,8 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   justify-content: flex-start;
-  -ms-align-items: center;
   align-items: center;
 }
 
@@ -7005,10 +7020,8 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   justify-content: flex-end;
-  -ms-align-items: center;
   align-items: center;
 }
 
@@ -7016,10 +7029,8 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   justify-content: space-around;
-  -ms-align-items: center;
   align-items: center;
 }
 
@@ -7027,10 +7038,8 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   justify-content: space-between;
-  -ms-align-items: center;
   align-items: center;
 }
 
@@ -7039,14 +7048,9 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  -ms-flex-direction: column;
-  -o-flex-direction: column;
   flex-direction: column;
-  -ms-align-items: flex-start;
   align-items: flex-start;
 }
 
@@ -7054,14 +7058,9 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  -ms-flex-direction: column;
-  -o-flex-direction: column;
   flex-direction: column;
-  -ms-align-items: flex-end;
   align-items: flex-end;
 }
 
@@ -7069,13 +7068,8 @@ button:hover {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  -ms-flex-direction: column;
-  -o-flex-direction: column;
   flex-direction: column;
-  -ms-align-items: center;
   align-items: center;
 }

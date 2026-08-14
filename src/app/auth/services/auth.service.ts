@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { AuthResponse, Usuario } from '../interfaces/auth.interface';
@@ -19,7 +19,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string) {
-    const url = `${this.baseUrl}/auth`;
+    const url = `${this.baseUrl}/api/auth`;
     const body = { email, password };
     return this.http.post<AuthResponse>(url, body).pipe(
       tap((resp) => {
@@ -33,12 +33,8 @@ export class AuthService {
   }
 
   validarToken(): Observable<boolean> {
-    const url = `${this.baseUrl}/auth/renew`;
-    const headers = new HttpHeaders().set(
-      'x-token',
-      localStorage.getItem('token') || ''
-    );
-    return this.http.get<AuthResponse>(url, { headers }).pipe(
+    const url = `${this.baseUrl}/api/auth/renew`;
+    return this.http.get<AuthResponse>(url).pipe(
       map((resp) => {
         localStorage.setItem('token', resp.token!);
         this._usuario = {
@@ -48,7 +44,7 @@ export class AuthService {
         };
         return resp.ok;
       }),
-      catchError((err) => of(false))
+      catchError(() => of(false))
     );
   }
 
@@ -57,7 +53,7 @@ export class AuthService {
   }
 
   registro(name: string, email: string, password: string) {
-    const url = `${this.baseUrl}/auth/new`;
+    const url = `${this.baseUrl}/api/auth/new`;
     const body = { name, email, password };
     return this.http.post<AuthResponse>(url, body).pipe(
       tap(({ ok, token }) => {
