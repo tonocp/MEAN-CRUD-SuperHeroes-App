@@ -1,7 +1,13 @@
 <h1>Listado de Héroes</h1>
 <mat-divider></mat-divider>
 
-<div class="heroes-grid">
+<app-backend-loader
+  [cargando]="cargando"
+  [error]="error"
+  mensajeCarga="Cargando héroes..."
+></app-backend-loader>
+
+<div class="heroes-grid" *ngIf="!cargando && !error">
   <div *ngFor="let heroe of heroes">
     <app-heroe-tarjeta [heroe]="heroe"></app-heroe-tarjeta>
   </div>

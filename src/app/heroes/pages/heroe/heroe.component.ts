@@ -12,6 +12,7 @@ import { HeroesService } from '../../services/heroes.service';
 export class HeroeComponent implements OnInit {
 
   heroe!: Heroe;
+  error = false;
 
   constructor( private activatedRoute: ActivatedRoute,
                private heroesService: HeroesService,
@@ -23,10 +24,16 @@ export class HeroeComponent implements OnInit {
       .pipe(
         switchMap(({ id }) => this.heroesService.getHeroePorId(id))
       )
-      .subscribe( heroe => {
-        this.heroe = heroe;
-        this.cdr.detectChanges();
-      } );
+      .subscribe({
+        next: heroe => {
+          this.heroe = heroe;
+          this.cdr.detectChanges();
+        },
+        error: () => {
+          this.error = true;
+          this.cdr.detectChanges();
+        },
+      });
   }
 
   atras() {

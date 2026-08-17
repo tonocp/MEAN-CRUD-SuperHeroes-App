@@ -13,6 +13,8 @@ export class BuscarComponent implements OnInit {
   termino: string = '';
   heroes: Heroe[] = [];
   heroeSeleccionado: Heroe | undefined;
+  buscando = false;
+  error = false;
 
   constructor(
     private heroesService: HeroesService,
@@ -21,10 +23,21 @@ export class BuscarComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  buscando() {
-    this.heroesService.getSugerencias(this.termino.trim()).subscribe((heroes) => {
-      this.heroes = heroes;
-      this.cdr.detectChanges();
+  buscar() {
+    this.buscando = true;
+    this.error = false;
+
+    this.heroesService.getSugerencias(this.termino.trim()).subscribe({
+      next: (heroes) => {
+        this.heroes = heroes;
+        this.buscando = false;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.buscando = false;
+        this.error = true;
+        this.cdr.detectChanges();
+      },
     });
   }
 

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 import { HeroeComponent } from './heroe.component';
 import { HeroesService } from '../../services/heroes.service';
@@ -52,5 +52,13 @@ describe('HeroeComponent', () => {
     component.atras();
 
     expect(routerSpy.navigate).toHaveBeenCalledWith(['/heroes/listado']);
+  });
+
+  it('sets error when getHeroePorId() fails', () => {
+    heroesServiceSpy.getHeroePorId.and.returnValue(throwError(() => new Error('fail')));
+
+    component.ngOnInit();
+
+    expect(component.error).toBeTrue();
   });
 });

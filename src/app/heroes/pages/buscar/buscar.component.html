@@ -14,18 +14,29 @@
         matInput
         [(ngModel)]="termino"
         [matAutocomplete]="auto"
-        (input)="buscando()"
+        (input)="buscar()"
       />
       <mat-autocomplete
         autoActiveFirstOption
         #auto="matAutocomplete"
         (optionSelected)="opcionSeleccionada($event)"
       >
-        <mat-option *ngFor="let heroe of heroes" [value]="heroe">
+        <mat-option *ngIf="buscando" disabled value="">
+          Buscando... (el backend gratuito puede tardar unos segundos en
+          despertar)
+        </mat-option>
+        <mat-option *ngIf="error" disabled value="">
+          No se ha podido buscar. Prueba de nuevo en unos segundos.
+        </mat-option>
+        <mat-option
+          *ngFor="let heroe of heroes"
+          [value]="heroe"
+          [hidden]="buscando"
+        >
           {{ heroe.superhero }}
         </mat-option>
         <mat-option
-          *ngIf="heroes.length === 0 && termino.trim().length > 0"
+          *ngIf="!buscando && !error && heroes.length === 0 && termino.trim().length > 0"
           value=""
         >
           No se encontró un héroe con el término '{{ termino }}'

@@ -1,0 +1,9 @@
+<div class="backend-loader" *ngIf="cargando">
+  <mat-spinner diameter="36"></mat-spinner>
+  <p>{{ mensajeCarga }}</p>
+</div>
+
+<div class="backend-loader backend-loader--error" *ngIf="error">
+  <mat-icon>cloud_off</mat-icon>
+  <p>{{ mensajeError }}</p>
+</div>

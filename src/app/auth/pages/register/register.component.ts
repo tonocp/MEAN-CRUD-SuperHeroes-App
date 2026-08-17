@@ -17,6 +17,8 @@ export class RegisterComponent {
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
 
+  cargando = false;
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -24,9 +26,11 @@ export class RegisterComponent {
   ) {}
 
   registro() {
+    this.cargando = true;
     const { name, email, password } = this.miFormulario.value;
 
     this.authService.registro(name, email, password).subscribe((ok) => {
+      this.cargando = false;
       if (ok === true) {
         this.router.navigateByUrl('/heroes');
       } else {

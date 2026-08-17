@@ -3,7 +3,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 import { BuscarComponent } from './buscar.component';
 import { HeroesService } from '../../services/heroes.service';
@@ -41,14 +41,25 @@ describe('BuscarComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('buscando() populates heroes from getSugerencias()', () => {
+  it('buscar() populates heroes from getSugerencias()', () => {
     heroesServiceSpy.getSugerencias.and.returnValue(of([heroe]));
     component.termino = 'Super';
 
-    component.buscando();
+    component.buscar();
 
     expect(heroesServiceSpy.getSugerencias).toHaveBeenCalledWith('Super');
     expect(component.heroes).toEqual([heroe]);
+    expect(component.buscando).toBeFalse();
+  });
+
+  it('buscar() sets error when getSugerencias() fails', () => {
+    heroesServiceSpy.getSugerencias.and.returnValue(throwError(() => new Error('fail')));
+    component.termino = 'Super';
+
+    component.buscar();
+
+    expect(component.error).toBeTrue();
+    expect(component.buscando).toBeFalse();
   });
 
   it('opcionSeleccionada() sets heroeSeleccionado directly from the picked option, without another HTTP call', () => {

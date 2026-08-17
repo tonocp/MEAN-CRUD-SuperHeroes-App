@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 import { ListadoComponent } from './listado.component';
 import { HeroesService } from '../../services/heroes.service';
@@ -41,5 +41,16 @@ describe('ListadoComponent', () => {
 
     expect(heroesServiceSpy.getHeroes).toHaveBeenCalled();
     expect(component.heroes).toEqual(heroes);
+    expect(component.cargando).toBeFalse();
+    expect(component.error).toBeFalse();
+  });
+
+  it('sets error when getHeroes() fails', () => {
+    heroesServiceSpy.getHeroes.and.returnValue(throwError(() => new Error('fail')));
+
+    component.ngOnInit();
+
+    expect(component.cargando).toBeFalse();
+    expect(component.error).toBeTrue();
   });
 });
