@@ -1,16 +1,15 @@
-<mat-grid-list cols="1" *ngIf="!heroe; else divHeroe">
-  <ng-template #elseTemplate> </ng-template>
-  >
-  <mat-grid-tile>
-    <mat-spinner></mat-spinner>
-  </mat-grid-tile>
-</mat-grid-list>
+<app-backend-loader
+  *ngIf="!heroe"
+  [cargando]="!error"
+  [error]="error"
+  mensajeCarga="Cargando héroe..."
+></app-backend-loader>
 
-<ng-template #divHeroe>
+<div *ngIf="heroe">
   <app-heroe-ficha [heroe]="heroe">
     <ng-container ficha-footer>
       <br />
       <button mat-button color="warn" (click)="atras()">Atrás</button>
     </ng-container>
   </app-heroe-ficha>
-</ng-template>
+</div>

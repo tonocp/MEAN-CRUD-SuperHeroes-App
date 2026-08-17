@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { HeroesRoutingModule } from './heroes-routing.module';
 import { MaterialModule } from '../material/material.module';
+import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 
 import { AgregarComponent } from './pages/agregar/agregar.component';
@@ -31,6 +32,7 @@ import { ConfirmarComponent } from './components/confirmar/confirmar.component';
     CommonModule,
     FormsModule,
     MaterialModule,
+    SharedModule,
     HeroesRoutingModule,
   ],
 })

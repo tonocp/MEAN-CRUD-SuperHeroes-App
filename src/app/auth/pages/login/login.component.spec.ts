@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
@@ -24,6 +25,7 @@ describe('LoginComponent', () => {
         { provide: AuthService, useValue: authServiceSpy },
         { provide: Router, useValue: routerSpy },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginComponent);
@@ -47,6 +49,7 @@ describe('LoginComponent', () => {
 
     expect(authServiceSpy.login).toHaveBeenCalledWith('test@test.com', '123456');
     expect(routerSpy.navigateByUrl).toHaveBeenCalledWith('/heroes');
+    expect(component.cargando).toBeFalse();
   });
 
   it('login() shows an error alert and does not navigate on failure', () => {

@@ -1,0 +1,18 @@
+.backend-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 2rem 1rem;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.backend-loader p {
+  max-width: 32rem;
+  margin: 0;
+}
+
+.backend-loader--error {
+  color: #b00020;
+}

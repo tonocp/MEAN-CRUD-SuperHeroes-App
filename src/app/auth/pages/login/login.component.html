@@ -30,13 +30,18 @@
 
   <div class="text-right p-t-8 p-b-31"></div>
 
+  <app-backend-loader
+    [cargando]="cargando"
+    mensajeCarga="Conectando... el backend gratuito puede tardar unos segundos en despertar."
+  ></app-backend-loader>
+
   <div class="container-login100-form-btn">
     <div class="wrap-login100-form-btn">
       <div class="login100-form-bgbtn"></div>
       <button
         class="login100-form-btn"
         type="submit"
-        [disabled]="miFormulario.invalid"
+        [disabled]="miFormulario.invalid || cargando"
       >
         Login
       </button>
