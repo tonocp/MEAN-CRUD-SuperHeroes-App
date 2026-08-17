@@ -1,6 +1,6 @@
 {
   "name": "heroes-app",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "21.2.20",
+    "@angular/build": "21.2.20",
     "@angular/cli": "21.2.20",
     "@angular/compiler-cli": "21.2.19",
     "@types/jasmine": "3.8.2",
